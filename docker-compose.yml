@@ -10,13 +10,19 @@ services:
         volumes:
          - ./vols/mysql/data/:/var/lib/mysql/
         user: $UID:$UID
+    adminer:
+        image: adminer:4.8.0-standalone
+        env_file: 
+            - ./env/adminer.env
+        ports: 
+            - $ADMINER_PORT:8080
     app:
         image: $APP_IMAGE
         build:
             context: .
             dockerfile: ./docker-files/app.Dockerfile
-            args:
-                UID: $UID
+            # args:
+            #     UID: $UID
         volumes:
             - $APP_VOLUMES_SRC:/var/www/html/
             - ./vols/app/docker-user-home/:/home/www-data/
